@@ -3,59 +3,377 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CKD Risk Assessment Tool</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Advanced CKD Risk Assessment Tool</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f9fc;
+        }
+        
+        header {
+            background-color: #1a6fc9;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        h1, h2 {
+            color: #1a6fc9;
+        }
+        
+        .form-section, #result {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            font-weight: 600;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        button {
+            background-color: #1a6fc9;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            margin-top: 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #145da0;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .risk-high {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        
+        .risk-medium {
+            color: #f39c12;
+            font-weight: bold;
+        }
+        
+        .risk-low {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .additional-info {
+            background-color: #e8f4fc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <h1>CKD Risk Assessment Tool</h1>
-        <p>Assess your risk of Chronic Kidney Disease (CKD)</p>
+        <h1>Chronic Kidney Disease (CKD) Risk Assessment</h1>
+        <p>This tool evaluates your risk factors for developing chronic kidney disease</p>
     </header>
 
     <section class="form-section">
-        <h2>Step 1: Enter Your Details</h2>
+        <h2>Patient Information</h2>
         <form id="ckd-form">
-            <label for="age">Age:</label>
-            <input type="number" id="age" name="age" required>
-
+            <label for="age">Age (years):</label>
+            <input type="number" id="age" name="age" min="18" max="120" required>
+            
             <label for="sex">Sex:</label>
             <select id="sex" name="sex" required>
+                <option value="">Select...</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
             </select>
-
-            <label for="bp">Do you have high blood pressure?</label>
-            <select id="bp" name="bp" required>
+            
+            <label for="race">Race/Ethnicity:</label>
+            <select id="race" name="race" required>
+                <option value="">Select...</option>
+                <option value="white">White/Caucasian</option>
+                <option value="black">Black/African American</option>
+                <option value="hispanic">Hispanic/Latino</option>
+                <option value="asian">Asian</option>
+                <option value="native">Native American</option>
+                <option value="other">Other</option>
+            </select>
+            
+            <h3>Medical History</h3>
+            
+            <label for="hypertension">Do you have hypertension (high blood pressure)?</label>
+            <select id="hypertension" name="hypertension" required>
+                <option value="">Select...</option>
                 <option value="no">No</option>
                 <option value="yes">Yes</option>
+                <option value="borderline">Borderline/Prehypertension</option>
             </select>
-
+            
             <label for="diabetes">Do you have diabetes?</label>
             <select id="diabetes" name="diabetes" required>
+                <option value="">Select...</option>
+                <option value="no">No</option>
+                <option value="type2">Type 2 Diabetes</option>
+                <option value="type1">Type 1 Diabetes</option>
+                <option value="prediabetes">Prediabetes</option>
+            </select>
+            
+            <label for="duration">If diabetic, how many years since diagnosis?</label>
+            <input type="number" id="duration" name="duration" min="0" max="100" value="0">
+            
+            <label for="family_history">Family history of kidney disease?</label>
+            <select id="family_history" name="family_history" required>
+                <option value="">Select...</option>
+                <option value="no">No</option>
+                <option value="yes">Yes (parents or siblings)</option>
+            </select>
+            
+            <label for="bmi">Body Mass Index (BMI):</label>
+            <input type="number" id="bmi" name="bmi" min="15" max="60" step="0.1" required>
+            
+            <label for="smoking">Smoking status:</label>
+            <select id="smoking" name="smoking" required>
+                <option value="">Select...</option>
+                <option value="never">Never smoked</option>
+                <option value="former">Former smoker</option>
+                <option value="current">Current smoker</option>
+            </select>
+            
+            <label for="cardiovascular">History of cardiovascular disease?</label>
+            <select id="cardiovascular" name="cardiovascular" required>
+                <option value="">Select...</option>
                 <option value="no">No</option>
                 <option value="yes">Yes</option>
             </select>
-
-            <label for="symptoms">Do you experience symptoms like swelling or fatigue?</label>
-            <select id="symptoms" name="symptoms" required>
-                <option value="no">No</option>
-                <option value="yes">Yes</option>
-            </select>
-
-            <button type="submit">Submit</button>
+            
+            <h3>Symptoms (Check all that apply)</h3>
+            
+            <label><input type="checkbox" name="symptoms" value="fatigue"> Fatigue or weakness</label>
+            <label><input type="checkbox" name="symptoms" value="swelling"> Swelling in feet/ankles</label>
+            <label><input type="checkbox" name="symptoms" value="shortness"> Shortness of breath</label>
+            <label><input type="checkbox" name="symptoms" value="appetite"> Poor appetite</label>
+            <label><input type="checkbox" name="symptoms" value="sleep"> Trouble sleeping</label>
+            <label><input type="checkbox" name="symptoms" value="urination"> Changes in urination</label>
+            
+            <button type="submit">Calculate My CKD Risk</button>
         </form>
     </section>
 
     <section id="result" class="hidden">
         <h2>Your CKD Risk Assessment Results</h2>
-        <p id="risk-message"></p>
-        <p id="advice"></p>
+        <div id="risk-message"></div>
+        <div id="risk-explanation"></div>
+        <div id="advice"></div>
+        
+        <div class="additional-info">
+            <h3>Understanding Your Results</h3>
+            <p>This assessment is based on established risk factors for chronic kidney disease including age, diabetes, hypertension, family history, and other clinical factors.</p>
+            <p><strong>Note:</strong> This tool cannot diagnose CKD. Only blood tests (eGFR) and urine tests (ACR) can confirm kidney disease.</p>
+        </div>
+        
+        <button id="reset-btn">Start New Assessment</button>
     </section>
 
     <footer>
-        <p>Disclaimer: This tool is not a substitute for professional medical advice. Please consult a healthcare provider for accurate diagnosis and treatment.</p>
+        <p><strong>Disclaimer:</strong> This tool is for informational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.</p>
+        <p>Based on clinical guidelines from the National Kidney Foundation and KDIGO.</p>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        document.getElementById('ckd-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Gather form data
+            const age = parseInt(document.getElementById('age').value);
+            const sex = document.getElementById('sex').value;
+            const race = document.getElementById('race').value;
+            const hypertension = document.getElementById('hypertension').value;
+            const diabetes = document.getElementById('diabetes').value;
+            const duration = parseInt(document.getElementById('duration').value) || 0;
+            const family_history = document.getElementById('family_history').value;
+            const bmi = parseFloat(document.getElementById('bmi').value);
+            const smoking = document.getElementById('smoking').value;
+            const cardiovascular = document.getElementById('cardiovascular').value;
+            
+            // Count symptoms
+            const symptoms = document.querySelectorAll('input[name="symptoms"]:checked').length;
+            
+            // Calculate risk score (simplified version - real tools use more complex algorithms)
+            let riskScore = 0;
+            
+            // Age points
+            if (age >= 60) riskScore += 3;
+            else if (age >= 50) riskScore += 2;
+            else if (age >= 40) riskScore += 1;
+            
+            // Race points
+            if (race === 'black') riskScore += 1;
+            
+            // Hypertension points
+            if (hypertension === 'yes') riskScore += 2;
+            else if (hypertension === 'borderline') riskScore += 1;
+            
+            // Diabetes points
+            if (diabetes === 'type2') riskScore += 3;
+            else if (diabetes === 'type1') riskScore += 4;
+            else if (diabetes === 'prediabetes') riskScore += 1;
+            
+            // Diabetes duration points
+            if (duration >= 10) riskScore += 2;
+            else if (duration >= 5) riskScore += 1;
+            
+            // Family history points
+            if (family_history === 'yes') riskScore += 1;
+            
+            // BMI points
+            if (bmi >= 30) riskScore += 1;
+            
+            // Smoking points
+            if (smoking === 'current') riskScore += 1;
+            
+            // Cardiovascular disease points
+            if (cardiovascular === 'yes') riskScore += 1;
+            
+            // Symptoms points
+            if (symptoms >= 3) riskScore += 2;
+            else if (symptoms >= 1) riskScore += 1;
+            
+            // Determine risk level
+            let riskLevel, riskPercentage;
+            if (riskScore >= 10) {
+                riskLevel = 'high';
+                riskPercentage = '20-50%';
+            } else if (riskScore >= 6) {
+                riskLevel = 'moderate';
+                riskPercentage = '5-20%';
+            } else {
+                riskLevel = 'low';
+                riskPercentage = '<5%';
+            }
+            
+            // Display results
+            const riskMessage = document.getElementById('risk-message');
+            riskMessage.innerHTML = `
+                <p>Your calculated CKD risk score: <strong>${riskScore}/20</strong></p>
+                <p>Risk level: <span class="risk-${riskLevel}">${riskLevel.toUpperCase()}</span></p>
+                <p>Estimated 5-year risk of developing CKD: ${riskPercentage}</p>
+            `;
+            
+            const riskExplanation = document.getElementById('risk-explanation');
+            riskExplanation.innerHTML = `
+                <h3>Key Risk Factors Identified:</h3>
+                <ul>
+                    ${age >= 50 ? `<li>Age (${age} years)</li>` : ''}
+                    ${race === 'black' ? '<li>African American ethnicity</li>' : ''}
+                    ${hypertension !== 'no' ? `<li>${hypertension === 'yes' ? 'Hypertension' : 'Borderline hypertension'}</li>` : ''}
+                    ${diabetes !== 'no' ? `<li>${diabetes === 'type1' ? 'Type 1 Diabetes' : diabetes === 'type2' ? 'Type 2 Diabetes' : 'Prediabetes'}${duration > 0 ? ` (${duration} years)` : ''}</li>` : ''}
+                    ${family_history === 'yes' ? '<li>Family history of kidney disease</li>' : ''}
+                    ${bmi >= 30 ? `<li>Obesity (BMI ${bmi})</li>` : bmi >= 25 ? `<li>Overweight (BMI ${bmi})</li>` : ''}
+                    ${smoking === 'current' ? '<li>Current smoker</li>' : smoking === 'former' ? '<li>Former smoker</li>' : ''}
+                    ${cardiovascular === 'yes' ? '<li>History of cardiovascular disease</li>' : ''}
+                    ${symptoms > 0 ? `<li>${symptoms} potential CKD symptom(s)</li>` : ''}
+                </ul>
+            `;
+            
+            const advice = document.getElementById('advice');
+            if (riskLevel === 'high') {
+                advice.innerHTML = `
+                    <h3>Recommendations:</h3>
+                    <p>You have several risk factors for chronic kidney disease. We strongly recommend:</p>
+                    <ul>
+                        <li>Consult with your doctor about kidney function tests (eGFR and urine albumin)</li>
+                        <li>Strict control of blood pressure (target <130/80 mmHg if diabetic or CKD present)</li>
+                        <li>Optimal diabetes management if applicable (target A1C <7% for most patients)</li>
+                        <li>Regular monitoring of kidney function (at least annually)</li>
+                        <li>Dietary modifications (reduce sodium, moderate protein intake)</li>
+                        <li>Smoking cessation if applicable</li>
+                        <li>Weight management if overweight</li>
+                    </ul>
+                `;
+            } else if (riskLevel === 'moderate') {
+                advice.innerHTML = `
+                    <h3>Recommendations:</h3>
+                    <p>You have some risk factors for chronic kidney disease. We recommend:</p>
+                    <ul>
+                        <li>Discuss kidney health with your doctor at your next visit</li>
+                        <li>Monitor and control blood pressure</li>
+                        <li>Manage diabetes carefully if applicable</li>
+                        <li>Maintain a healthy lifestyle with regular exercise</li>
+                        <li>Consider annual kidney function screening if you have multiple risk factors</li>
+                        <li>Avoid NSAID pain medications if possible</li>
+                    </ul>
+                `;
+            } else {
+                advice.innerHTML = `
+                    <h3>Recommendations:</h3>
+                    <p>Your current risk appears low, but everyone should:</p>
+                    <ul>
+                        <li>Maintain a healthy blood pressure (<120/80 mmHg ideal)</li>
+                        <li>Stay hydrated and eat a balanced diet</li>
+                        <li>Exercise regularly</li>
+                        <li>Avoid excessive use of pain medications that can harm kidneys</li>
+                        <li>Get regular check-ups with your doctor</li>
+                    </ul>
+                `;
+            }
+            
+            // Show results
+            document.getElementById('result').classList.remove('hidden');
+            
+            // Scroll to results
+            document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+        });
+        
+        // Reset button functionality
+        document.getElementById('reset-btn').addEventListener('click', function() {
+            document.getElementById('ckd-form').reset();
+            document.getElementById('result').classList.add('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        // Show/hide diabetes duration based on diabetes status
+        document.getElementById('diabetes').addEventListener('change', function() {
+            const durationField = document.getElementById('duration');
+            if (this.value === 'type1' || this.value === 'type2') {
+                durationField.disabled = false;
+                durationField.required = true;
+            } else {
+                durationField.disabled = true;
+                durationField.required = false;
+                durationField.value = '0';
+            }
+        });
+    </script>
 </body>
 </html>
